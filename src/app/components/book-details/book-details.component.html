@@ -1,0 +1,12 @@
+<article>
+  <img
+    class="listing-photo"
+    [src]="bookDetails?.photo"
+    alt="Exterior photo of {{ bookDetails?.bookName }}"
+    crossorigin
+  />
+  <section class="listing-description">
+    <h2 class="listing-book-name">{{ bookDetails?.bookName }}</h2>
+    <p class="listing-author">{{ bookDetails?.bookAuthor }}</p>
+  </section>
+</article>

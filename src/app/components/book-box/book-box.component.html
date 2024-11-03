@@ -1,0 +1,11 @@
+<section class="books-listing">
+  <img
+    class="books-listing-photo"
+    src="{{bookDetails.photo}}"
+    alt="{{'Photo of ' + bookDetails.bookName}}"
+    crossorigin
+  />
+  <h2 class="listing-book-name">{{bookDetails.bookName}}</h2>
+  <p class="listing-author">{{bookDetails.bookAuthor}}</p>
+  <a [routerLink]="['/details', bookDetails.bookId]">Learn More</a>
+</section>
