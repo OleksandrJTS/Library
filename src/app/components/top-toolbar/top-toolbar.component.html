@@ -1,0 +1,8 @@
+<mat-toolbar style="color: aqua">
+  <mat-toolbar-row style="color: grey">
+    <button mat-icon-button (click)="leftMenuService.toggle()"
+            [matTooltip]="leftMenuService.opened ? 'Close menu' : 'Open menu'">
+      <mat-icon>{{leftMenuService.opened ? 'arrow_back_ios' : 'menu'}}</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
