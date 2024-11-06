@@ -1,20 +1,8 @@
-<!--<button mat-button>-->
-<!--  <mat-icon>house</mat-icon>-->
-<!--  Golivna-->
-<!--</button>-->
-
-<button mat-icon-button (click)="leftMenuService.toggle()"
-        [matTooltip]="'Головне меню'">
-  <mat-icon>menu</mat-icon>
-</button>
-
 <mat-nav-list>
   <mat-list-item>
-
-       <button mat-icon-button>
-          <mat-icon>house</mat-icon>
-       </button>
-
+    <button mat-icon-button>
+      <mat-icon>house</mat-icon>
+    </button>
     <a *ngIf="leftMenuService.opened" matListItemTitle>Golivna</a>
   </mat-list-item>
 </mat-nav-list>
