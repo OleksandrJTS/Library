@@ -2,8 +2,12 @@
   height: 100vh;
   mat-drawer {
     width: 15em;
+    min-width: 5em;
     background: #012a5b;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+  mat-drawer.collapsed {
+    width: 5em;
   }
 }

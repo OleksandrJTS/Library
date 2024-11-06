@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {MatToolbar, MatToolbarRow} from "@angular/material/toolbar";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -15,7 +15,5 @@ import {MatTooltip} from "@angular/material/tooltip";
   styleUrl: './top-toolbar.component.scss'
 })
 export class TopToolbarComponent {
-
   constructor(public leftMenuService: LeftMenuService) { }
-
 }

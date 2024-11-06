@@ -1,16 +1,20 @@
-<button mat-button>
-  <i class="fa fa-bars"></i> Tutu
+<!--<button mat-button>-->
 <!--  <mat-icon>house</mat-icon>-->
 <!--  Golivna-->
-</button>
+<!--</button>-->
 
-<!--<i class="fa fa-camera-retro"></i>-->
+<button mat-icon-button (click)="leftMenuService.toggle()"
+        [matTooltip]="'Головне меню'">
+  <mat-icon>menu</mat-icon>
+</button>
 
 <mat-nav-list>
   <mat-list-item>
-     <a matListItemTitle>Golivna</a>
+
        <button mat-icon-button>
           <mat-icon>house</mat-icon>
        </button>
+
+    <a *ngIf="leftMenuService.opened" matListItemTitle>Golivna</a>
   </mat-list-item>
 </mat-nav-list>

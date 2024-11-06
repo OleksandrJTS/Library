@@ -1,9 +1,11 @@
 <mat-drawer-container class="main-drawer">
-  <mat-drawer mode="side" opened="{{leftMenuService.opened}}">
-    <app-left-menu></app-left-menu>
+  <mat-drawer
+    mode="side"
+    [opened]="true"
+    [ngClass]="{'collapsed': !leftMenuService.opened}">
+      <app-left-menu></app-left-menu>
   </mat-drawer>
   <mat-drawer-content>
-    <app-top-toolbar></app-top-toolbar>
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>
