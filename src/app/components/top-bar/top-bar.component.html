@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="TopToolBar">
   <button mat-icon-button
     aria-label="Menu icon"
     (click)="leftMenuService.toggle()"
@@ -6,4 +6,8 @@
       <mat-icon>menu</mat-icon>
   </button>
   <div class="MainBrand">Бібліотека</div>
+
+  <mat-form-field appearance="outline" class="SearchInputField">
+    <input matInput/>
+  </mat-form-field>
 </mat-toolbar>

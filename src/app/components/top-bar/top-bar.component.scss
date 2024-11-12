@@ -1,4 +1,20 @@
+.TopToolBar {
+  display: flex;
+  align-items: center; /* Center items vertically */
+  flex: 1 1 auto;
+  //justify-content: space-around; /* Optional: space them horizontally */
+}
+
 .MainBrand {
-  width: 100%;
+  width: 180px;
   background-color: grey;
+}
+
+.SearchInputField {
+  height: 26px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 400px;
+  //vertical-align: center;
+  //border-radius: 20px;
 }
