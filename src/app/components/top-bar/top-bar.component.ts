@@ -5,7 +5,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {LeftMenuService} from "../../services/left-menu.service";
 import {NgClass} from "@angular/common";
-import {MatFormField} from "@angular/material/form-field";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 
 @Component({
@@ -18,7 +18,9 @@ import {MatInput} from "@angular/material/input";
     MatTooltip,
     NgClass,
     MatFormField,
-    MatInput
+    MatInput,
+    MatSuffix,
+    MatPrefix,
   ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss'
