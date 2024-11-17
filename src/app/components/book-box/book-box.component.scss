@@ -1,0 +1,30 @@
+.books-listing {
+  border-radius: 1rem;
+  //padding-bottom: 1rem;
+}
+
+.books-listing-photo {
+  height: 15rem;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.listing-book-name {
+  //padding: 10px 20px 0 20px;
+}
+
+.listing-author {
+  //padding: 10px 20px 20px 20px;
+}
+
+section.books-listing a {
+  padding-left: 20px;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+section.books-listing a::after {
+  content: "\203A";
+  margin-left: 5px;
+}

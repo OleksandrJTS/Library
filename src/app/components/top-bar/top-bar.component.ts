@@ -5,12 +5,9 @@ import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {LeftMenuService} from "../../services/left-menu.service";
 import {NgClass} from "@angular/common";
-import {MatFormField, MatPrefix, MatSuffix} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
+import {MatFormField, MatPrefix, MatSuffix, MatFormFieldModule} from "@angular/material/form-field";
+import {MatInput, MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-
 
 @Component({
   selector: 'app-top-bar',

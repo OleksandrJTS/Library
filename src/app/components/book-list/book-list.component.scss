@@ -1,0 +1,19 @@
+.BooksList {
+  display: grid;
+  column-gap: 0.3rem;
+  row-gap: 0.3rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
+  justify-content: space-around;
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
+  .BooksList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 499px) {
+  .BooksList {
+    grid-template-columns: 1fr;
+  }
+}

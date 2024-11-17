@@ -1,12 +1,31 @@
-.main-drawer {
+:host {
+  display: block;
   height: 100vh;
+  overflow: hidden;
+}
+
+.main-drawer {
+  min-height: calc(100vh - 4rem); // Subtract top-bar height
+  margin-top: 4rem;
+  overflow: hidden;
+
   mat-drawer {
-    width: 240px;
+    width: 15rem;
     min-width: 5em;
     background: #3f51b5; //#012a5b;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    position: fixed;
+    top: 4rem; // Same as margin-top of main-drawer
+    bottom: 0;
   }
+
+  mat-drawer-content {
+    margin-left: 15rem !important; // Same as drawer width
+    height: calc(100vh - 4rem); // Subtract top-bar height
+    overflow-y: auto; // Only show scrollbar when content exceeds height
+  }
+
   mat-drawer.collapsed {
     width: 5em;
   }

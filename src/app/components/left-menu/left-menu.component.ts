@@ -6,12 +6,14 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {LeftMenuService} from "../../services/left-menu.service";
 import {NgClass, NgIf} from "@angular/common";
 import {MatLine} from "@angular/material/core";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-left-menu',
   standalone: true,
   imports: [
-    MatButton, MatIcon, MatNavList, MatListItem, MatIconButton, MatTooltip, NgIf, NgClass, MatLine
+    MatButton, MatIcon, MatNavList, MatListItem, MatIconButton, MatTooltip, NgIf,
+    NgClass, MatLine, RouterLink, RouterLinkActive
   ],
   templateUrl: './left-menu.component.html',
   styleUrl: './left-menu.component.scss'

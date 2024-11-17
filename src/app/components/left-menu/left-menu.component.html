@@ -1,15 +1,8 @@
 <mat-nav-list>
   <div class="container1">
-    <a mat-list-item>
+    <a mat-list-item routerLink="/books" routerLinkActive="active">
       <mat-icon>library_books</mat-icon>
-      <span *ngIf="leftMenuService.opened" matLine >Книжки</span>
+      <span *ngIf="leftMenuService.opened" matLine>Книжки</span>
     </a>
   </div>
-
-  <mat-list-item>
-    <button mat-icon-button>
-      <mat-icon>tu-tu</mat-icon>
-    </button>
-    <a *ngIf="leftMenuService.opened" matListItemTitle>Налаштування</a>
-  </mat-list-item>
 </mat-nav-list>
