@@ -1,4 +1,4 @@
-<section class="BooksList">
-  <app-book-box *ngFor="let b of bookingService.getAllBooksDetails()" [bookDetails]="b"></app-book-box>
-</section>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
+  <app-book-box style="margin: 0.3em" *ngFor="let b of bookingService.getAllBooksDetails()" [bookDetails]="b"></app-book-box>
+</div>
 
