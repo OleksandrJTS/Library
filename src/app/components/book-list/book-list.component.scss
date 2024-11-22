@@ -1,19 +1,16 @@
-.BooksList {
-  display: grid;
-  column-gap: 0.3rem;
-  row-gap: 0.3rem;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
-  justify-content: space-around;
+.BookList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap
 }
 
-@media (min-width: 500px) and (max-width: 768px) {
-  .BooksList {
-    grid-template-columns: repeat(2, 1fr);
-  }
+app-book-box {
+  margin: 0.3em
 }
 
-@media (max-width: 499px) {
-  .BooksList {
-    grid-template-columns: 1fr;
-  }
+.fab-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
 }

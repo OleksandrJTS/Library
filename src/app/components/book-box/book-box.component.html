@@ -4,8 +4,12 @@
        alt="{{'Photo of ' + bookDetails.bookName}}">
   </mat-card-title-group>
   <mat-card-header>
-    <mat-card-title>{{bookDetails.bookName}}</mat-card-title>
-    <mat-card-subtitle>{{bookDetails.bookAuthor}}</mat-card-subtitle>
+    <mat-card-title [matTooltip]="bookDetails.bookName.length > 15 ? bookDetails.bookName : ''">
+      {{bookDetails.bookName | MaxString: 16}}
+    </mat-card-title>
+    <mat-card-subtitle [matTooltip]="bookDetails.bookAuthor.length > 19 ? bookDetails.bookAuthor : ''">
+      {{bookDetails.bookAuthor | MaxString: 20}}
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
     <button mat-button color="accent">

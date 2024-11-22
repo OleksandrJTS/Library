@@ -3,19 +3,39 @@ import {NgForOf} from "@angular/common";
 import {BookBoxComponent} from "../book-box/book-box.component";
 import {BookingService} from "../../services/booking.service";
 import {MatFabButton} from "@angular/material/button";
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialog} from '@angular/material/dialog';
+import {BookAddComponent} from "../book-add/book-add.component";
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
   imports: [
-    NgForOf, BookBoxComponent, MatFabButton
+    NgForOf, BookBoxComponent, MatFabButton, MatIconModule, BookAddComponent
   ],
   templateUrl: './book-list.component.html',
-  styleUrl: './book-list.component.scss'
+  styleUrls: ['./book-list.component.scss']
 })
 export class BookListComponent {
   readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
 
-  constructor(public bookingService: BookingService) {}
+  constructor(
+    public bookingService: BookingService,
+    private dialog: MatDialog
+  ) {}
 
+  openAddBookDialog(): void {
+    const dialogRef = this.dialog.open(BookAddComponent, {
+      width: '1000px',
+      height: '600px',
+      // disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the result if needed
+        console.log('Dialog closed with result:', result);
+      }
+    });
+  }
 }
