@@ -26,14 +26,13 @@ export class BookListComponent {
 
   openAddBookDialog(): void {
     const dialogRef = this.dialog.open(BookAddComponent, {
-      width: '1000px',
-      height: '600px',
-      // disableClose: false
+      width: '90rem',
+      maxHeight: '95vh',
+      // autoFocus: 'first-header'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Handle the result if needed
         console.log('Dialog closed with result:', result);
       }
     });

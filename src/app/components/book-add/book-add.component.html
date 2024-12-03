@@ -2,29 +2,65 @@
 
 <mat-dialog-content>
   <form #bookForm="ngForm">
-    <mat-form-field appearance="fill">
+    <mat-form-field class="full-width">
       <mat-label>Назва книжки</mat-label>
-      <input matInput [(ngModel)]="bookData.title" name="title" required>
+      <input matInput [(ngModel)]="bookData.bookTitle" name="title" required>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Автор</mat-label>
-      <input matInput [(ngModel)]="bookData.author" name="author">
-    </mat-form-field>
+    <div class="form-container">
+      <div class="column">
+        <mat-form-field>
+          <mat-label>Автор</mat-label>
+          <input matInput [(ngModel)]="bookData.bookAuthor" name="author" required>
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Видавництво</mat-label>
-      <input matInput [(ngModel)]="bookData.author" name="author">
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Видавництво</mat-label>
+          <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
+        <mat-form-field>
+          <mat-label>Рік видання</mat-label>
+          <input matInput [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>ISBN</mat-label>
+          <input matInput [(ngModel)]="bookData.bookISBN" name="isbn">
+        </mat-form-field>
+      </div>
+
+      <div class="column">
+        <mat-form-field>
+          <mat-label>Кількість сторінок</mat-label>
+          <input matInput type="number" [(ngModel)]="bookData.bookNbrOfPages" name="pages">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Мова книги</mat-label>
+          <input matInput [(ngModel)]="bookData.bookLanguage" name="language">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Перекладач</mat-label>
+          <input matInput [(ngModel)]="bookData.bookTranslator" name="translator">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>URL фото</mat-label>
+          <input matInput [(ngModel)]="bookData.photo" name="photo">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field class="full-width">
       <mat-label>Опис книжки</mat-label>
-      <textarea matInput [(ngModel)]="bookData.description" name="description" rows="2"></textarea>
+      <textarea matInput [(ngModel)]="bookData.bookDescription" name="description" rows="3"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookForm.form.valid">Add Book</button>
+  <button mat-button (click)="onCancel()">Відхиляю</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookForm.form.valid">Додай</button>
 </mat-dialog-actions>
