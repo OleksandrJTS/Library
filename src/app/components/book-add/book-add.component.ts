@@ -10,14 +10,17 @@ import {MatChipEditedEvent, MatChipGrid, MatChipInputEvent, MatChipsModule} from
 import {MatIconModule} from "@angular/material/icon";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Year} from "../../interfaces/year";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {MatTooltip} from "@angular/material/tooltip";
+import {MatAutocompleteModule, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatRadioModule} from '@angular/material/radio';
 
 @Component({
   selector: 'app-book-add',
   standalone: true,
   imports: [
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatDialogContent,
-    MatDialogActions, MatDialogTitle, NgIf, MatChipGrid, NgFor, MatChipsModule, MatIconModule
+    MatDialogActions, MatDialogTitle, NgIf, MatChipGrid, NgFor, MatChipsModule, MatIconModule, MatTooltip,
+    MatAutocompleteModule, MatRadioModule
   ],
   templateUrl: './book-add.component.html',
   styleUrls: ['./book-add.component.scss']
@@ -45,55 +48,17 @@ export class BookAddComponent {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly years = signal<Year[]>([]);
-  readonly announcer = inject(LiveAnnouncer);
+  coverTypes = ['М\'яка', 'Тверда'];
 
-  remove(year: Year): void {
-    this.years.update(years => {
-      const index = years.indexOf(year);
-      if (index < 0) {
-        return years;
-      }
-
-      years.splice(index, 1);
-      this.announcer.announce(`Removed ${year.year}`);
-      return [...years];
-    });
+  filteredCoverTypes(value: string | undefined): string[] {
+    const filterValue = (value || '').toLowerCase();
+    return this.coverTypes.filter(type => type.toLowerCase().includes(filterValue));
   }
 
-  edit(year: Year, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-
-    // Remove year if it no longer has a name
-    if (!value) {
-      this.remove(year);
-      return;
-    }
-
-    const yearNum = parseInt(value, 10);
-    if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2024) {
-      // Edit existing year with proper type assertion
-      this.years.update(years => {
-        const index = years.indexOf(year);
-        if (index >= 0) {
-          years[index].year = value as Year['year'];
-          return [...years];
-        }
-        return years;
-      });
-    }
-  }
-
-  constructor(
-    public dialogRef: MatDialogRef<BookAddComponent>
-  ) {}
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-
-  onSubmit(): void {
-    if (this.bookData.bookTitle && this.bookData.bookAuthor) {
-      this.dialogRef.close(this.bookData);
+  clearBookCover(autocomplete: MatAutocomplete): void {
+    this.bookData.bookCover = '';
+    if (autocomplete) {
+      autocomplete.options.forEach(option => option.deselect());
     }
   }
 
@@ -103,16 +68,45 @@ export class BookAddComponent {
     // Add the year
     if (value) {
       const yearNum = parseInt(value, 10);
-      if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2024) {
-        // Convert to string literal type by asserting it matches the Year interface
-        const yearStr = value as Year['year'];
-        const newYear = { year: yearStr };
-        this.years.update(years => [...years, newYear]);
-        this.bookData.bookYearPublished = newYear;
+      if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
+        this.years.update(years => years.some(y => y.year === value) ?
+          years : [...years, { year: value as Year['year'] }]);
       }
     }
 
-    // Clear the input value
     event.chipInput!.clear();
+  }
+
+  remove(year: Year): void {
+    this.years.update(years => years.filter(y => y !== year));
+  }
+
+  edit(year: Year, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+
+    if (!value) {
+      this.remove(year);
+      return;
+    }
+
+    const yearNum = parseInt(value, 10);
+    if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
+      this.years().some(y => y !== year && y.year === value) ? this.remove(year) :
+        this.years.update(years =>
+          years.map(y => y === year ? { year: value as Year['year'] } : y)
+        );
+    }
+  }
+
+  constructor(public dialogRef: MatDialogRef<BookAddComponent>) {}
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmit(): void {
+    if (this.bookData.bookTitle) {
+      this.dialogRef.close(this.bookData);
+    }
   }
 }

@@ -20,26 +20,55 @@
         <mat-label>Рік видання</mat-label>
         <mat-chip-grid #chipGrid [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
           @for (year of years(); track year.year) {
-          <mat-chip-row
-            (removed)="remove(year)"
-            [editable]="true"
-            (edited)="edit(year, $event)"
-            [aria-description]="'press enter to edit ' + year.year">
-            {{year.year}}
-          </mat-chip-row>}
+            <mat-chip-row
+              (removed)="remove(year)"
+              [editable]="true"
+              (edited)="edit(year, $event)"
+              [aria-description]="'press enter to edit ' + year.year">
+              {{year.year}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
 
           <input placeholder="Введіть рік..."
-                 [matChipInputFor]="chipGrid"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 (matChipInputTokenEnd)="addYear($event)">
+             [matChipInputFor]="chipGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             (matChipInputTokenEnd)="addYear($event)"
+             matTooltip="Можна ввести 4-значні числа від 1900 до 2025"
+             [matTooltipShowDelay]="1000">
         </mat-chip-grid>
       </mat-form-field>
     </div>
 
-    <mat-form-field class="full-width">
-      <mat-label>Видавництво</mat-label>
-      <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
-    </mat-form-field>
+    <div>
+      <mat-form-field>
+        <mat-label>Видавництво</mat-label>
+        <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Палітурка</mat-label>
+        <input type="text"
+               matInput
+               [(ngModel)]="bookData.bookCover"
+               name="cover"
+               [matAutocomplete]="auto">
+        <button *ngIf="bookData.bookCover" 
+                matSuffix 
+                mat-icon-button 
+                aria-label="Clear"
+                (click)="clearBookCover(auto)">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (type of filteredCoverTypes(bookData.bookCover); track type) {
+            <mat-option [value]="type">{{type}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
 
     <mat-form-field class="full-width">
       <mat-label>Опис книжки</mat-label>

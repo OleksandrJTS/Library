@@ -20,8 +20,24 @@ mat-dialog-content {
         }
 
         &:last-child {
-          width: 10.5em;
+          width: 13em;
         }
+      }
+    }
+
+    mat-form-field {
+      margin-right: 1rem;
+
+      // Decrease font size for input fields
+      ::ng-deep .mat-mdc-input-element {
+        font-size: 14px; // You can adjust this value as needed
+      }
+    }
+
+    .mat-mdc-chip-grid {
+      input {
+        width: 100px !important;  // Restrict input width
+        min-width: unset !important;
       }
     }
   }
