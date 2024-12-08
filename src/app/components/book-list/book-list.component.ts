@@ -26,9 +26,8 @@ export class BookListComponent {
 
   openAddBookDialog(): void {
     const dialogRef = this.dialog.open(BookAddComponent, {
-      width: '90rem',
+      maxWidth: '50rem',
       maxHeight: '95vh',
-      // autoFocus: 'first-header'
     });
 
     dialogRef.afterClosed().subscribe(result => {

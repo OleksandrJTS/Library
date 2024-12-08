@@ -4,54 +4,42 @@
   <form #bookForm="ngForm">
     <mat-form-field class="full-width">
       <mat-label>Назва книжки</mat-label>
-      <input matInput [(ngModel)]="bookData.bookTitle" name="title" required>
+      <input matInput [(ngModel)]="bookData.bookTitle" name="title" required #bookTitle="ngModel">
+      <mat-error *ngIf="bookTitle.invalid && (bookTitle.dirty || bookTitle.touched)">
+        Назва книжки має бути обов'язково
+      </mat-error>
     </mat-form-field>
 
-    <div class="form-container">
-      <div class="column">
-        <mat-form-field>
-          <mat-label>Автор</mat-label>
-          <input matInput [(ngModel)]="bookData.bookAuthor" name="author" required>
-        </mat-form-field>
+    <div>
+      <mat-form-field>
+        <mat-label>Автор</mat-label>
+        <input matInput [(ngModel)]="bookData.bookAuthor" name="author">
+      </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Видавництво</mat-label>
-          <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
-        </mat-form-field>
+      <mat-form-field>
+        <mat-label>Рік видання</mat-label>
+        <mat-chip-grid #chipGrid [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
+          @for (year of years(); track year.year) {
+          <mat-chip-row
+            (removed)="remove(year)"
+            [editable]="true"
+            (edited)="edit(year, $event)"
+            [aria-description]="'press enter to edit ' + year.year">
+            {{year.year}}
+          </mat-chip-row>}
 
-        <mat-form-field>
-          <mat-label>Рік видання</mat-label>
-          <input matInput [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>ISBN</mat-label>
-          <input matInput [(ngModel)]="bookData.bookISBN" name="isbn">
-        </mat-form-field>
-      </div>
-
-      <div class="column">
-        <mat-form-field>
-          <mat-label>Кількість сторінок</mat-label>
-          <input matInput type="number" [(ngModel)]="bookData.bookNbrOfPages" name="pages">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Мова книги</mat-label>
-          <input matInput [(ngModel)]="bookData.bookLanguage" name="language">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Перекладач</mat-label>
-          <input matInput [(ngModel)]="bookData.bookTranslator" name="translator">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>URL фото</mat-label>
-          <input matInput [(ngModel)]="bookData.photo" name="photo">
-        </mat-form-field>
-      </div>
+          <input placeholder="Введіть рік..."
+                 [matChipInputFor]="chipGrid"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 (matChipInputTokenEnd)="addYear($event)">
+        </mat-chip-grid>
+      </mat-form-field>
     </div>
+
+    <mat-form-field class="full-width">
+      <mat-label>Видавництво</mat-label>
+      <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
+    </mat-form-field>
 
     <mat-form-field class="full-width">
       <mat-label>Опис книжки</mat-label>

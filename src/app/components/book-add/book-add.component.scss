@@ -1,39 +1,32 @@
 mat-dialog-content {
-  //padding: 0.5rem;
-  //display: block;
-  //margin-top: 0;
   max-height: 90vh !important;
-  //overflow-y: auto;
 
   form {
     display: flex;
-    flex-direction: column;
-    //gap: 0.5rem;
+    flex-wrap: wrap;
 
-    .form-container {
-      display: flex;
-      gap: 0.5rem;
-      //margin-bottom: 1rem;
-
-      .column {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
+    .full-width {
+      width: 100%;
     }
 
-    mat-form-field {
+    div {
+      display: flex;
+      gap: 0.5em;
       width: 100%;
+
+      mat-form-field {
+        &:first-child {
+          flex: 1;
+        }
+
+        &:last-child {
+          width: 10.5em;
+        }
+      }
     }
   }
 }
 
 .mat-mdc-dialog-title {
   padding-top: 0 !important;
-}
-
-mat-dialog-actions {
-  padding: 0.5rem;
-  gap: 0.5rem;
 }

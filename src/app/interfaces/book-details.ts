@@ -1,10 +1,12 @@
+import {Year} from "./year";
+
 export interface BookDetails {
   bookId?: number;
-  bookTitle: string;
-  bookAuthor: string;
-  bookPublisher?: string;
-  bookDescription?: string;
-  bookYearPublished?: string;
+  bookTitle: string; //
+  bookAuthor: string; //
+  bookPublisher?: string; //
+  bookDescription?: string; //
+  bookYearPublished?: Year; //
   bookCover?: string;
   bookInOriginalLanguage?: string;
   bookTranslator?: string;
