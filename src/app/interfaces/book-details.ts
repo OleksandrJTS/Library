@@ -7,7 +7,7 @@ export interface BookDetails {
   bookPublisher?: string; //
   bookDescription?: string; //
   bookYearPublished?: Year; //
-  bookCover?: string;
+  bookCover?: string; //
   bookInOriginalLanguage?: string;
   bookTranslator?: string;
   bookISBN?: string;

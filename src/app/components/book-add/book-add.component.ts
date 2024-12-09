@@ -55,10 +55,20 @@ export class BookAddComponent {
     return this.coverTypes.filter(type => type.toLowerCase().includes(filterValue));
   }
 
-  clearBookCover(autocomplete: MatAutocomplete): void {
-    this.bookData.bookCover = '';
-    if (autocomplete) {
-      autocomplete.options.forEach(option => option.deselect());
+  validateBookCover(value: string | undefined): void {
+    if (value === undefined) return;
+
+    // Trim the value to remove any whitespace
+    const trimmedValue = value.trim();
+    
+    const isValidOption = this.coverTypes.some(type =>
+      type === trimmedValue // Exact match only
+    );
+
+    if (!isValidOption) {
+      setTimeout(() => {
+        this.bookData.bookCover = '';
+      });
     }
   }
 

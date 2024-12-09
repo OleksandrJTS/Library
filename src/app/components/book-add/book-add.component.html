@@ -12,7 +12,7 @@
 
     <div>
       <mat-form-field>
-        <mat-label>Автор</mat-label>
+        <mat-label>Автор(и)</mat-label>
         <input matInput [(ngModel)]="bookData.bookAuthor" name="author">
       </mat-form-field>
 
@@ -53,15 +53,10 @@
         <input type="text"
                matInput
                [(ngModel)]="bookData.bookCover"
+               (ngModelChange)="validateBookCover($event)"
+               (blur)="validateBookCover(bookData.bookCover || '')"
                name="cover"
                [matAutocomplete]="auto">
-        <button *ngIf="bookData.bookCover" 
-                matSuffix 
-                mat-icon-button 
-                aria-label="Clear"
-                (click)="clearBookCover(auto)">
-          <mat-icon>close</mat-icon>
-        </button>
         <mat-autocomplete #auto="matAutocomplete">
           @for (type of filteredCoverTypes(bookData.bookCover); track type) {
             <mat-option [value]="type">{{type}}</mat-option>
