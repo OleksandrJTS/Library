@@ -2,12 +2,12 @@ mat-dialog-content {
   max-height: 90vh !important;
 
   form {
-    display: flex;
-    flex-wrap: wrap;
+    //display: flex;
+    //flex-wrap: wrap;
 
-    .full-width {
-      width: 100%;
-    }
+    //.full-width {
+    //  width: 100%;
+    //}
 
     div {
       display: flex;
@@ -15,19 +15,19 @@ mat-dialog-content {
       width: 100%;
 
       mat-form-field {
-        &.isbn-field {
+        &.bookISBN {
           width: 13em;
         }
 
-        &:has(mat-chip-grid[name="yearPublished"]) {
+        &.bookTitle { //&:has(mat-chip-grid[name="yearPublished"]) {
           width: 13em;
         }
 
-        &:has(input[name="cover"]) {
+        &.bookCover { //&:has(input[name="cover"]) {
           width: 10em;
         }
 
-        &:not(.isbn-field):not(:has(mat-chip-grid[name="yearPublished"])):not(:has(input[name="cover"])) {
+        &:not(bookISBN):not(yearPublished):not(bookCover) { //&:not(.isbn-field):not(:has(mat-chip-grid[name="yearPublished"])):not(:has(input[name="cover"])) {
           flex: 1;
         }
       }
@@ -38,7 +38,7 @@ mat-dialog-content {
 
       // Decrease font size for input fields
       ::ng-deep .mat-mdc-input-element {
-        font-size: 14px; // You can adjust this value as needed
+        font-size: 14px;
       }
     }
 
@@ -49,9 +49,9 @@ mat-dialog-content {
       }
     }
 
-    .isbn-field {
-      margin-right: 1em;
-    }
+    //.isbn-field {
+    //  margin-right: 1em;
+    //}
   }
 }
 

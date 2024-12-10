@@ -80,8 +80,9 @@ export class BookAddComponent {
     if (value) {
       const yearNum = parseInt(value, 10);
       if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
-        this.years.update(years => years.some(y => y.year === value) ?
-          years : [...years, { year: value as Year['year'] }]);
+        const yearString = yearNum.toString(); // Convert to string to remove leading zeros
+        this.years.update(years => years.some(y => y.year === yearString) ?
+          years : [...years, { year: yearString as Year['year'] }]);
       }
     }
 

@@ -3,7 +3,7 @@
 <mat-dialog-content>
   <form #bookForm="ngForm">
     <div>
-      <mat-form-field class="isbn-field">
+      <mat-form-field class="bookISBN">
         <mat-label>ISBN</mat-label>
         <mat-chip-grid #isbnChipGrid>
           @for (isbn of isbns; track isbn) {
@@ -23,7 +23,7 @@
         </mat-chip-grid>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
+      <mat-form-field class="bookTitle">
         <mat-label>Назва книжки</mat-label>
         <input matInput [(ngModel)]="bookData.bookTitle" name="title" required #bookTitle="ngModel">
         <mat-error *ngIf="bookTitle.invalid && (bookTitle.dirty || bookTitle.touched)">
@@ -33,12 +33,12 @@
     </div>
 
     <div>
-      <mat-form-field>
+      <mat-form-field class="bookAuthor">
         <mat-label>Автор(и)</mat-label>
         <input matInput [(ngModel)]="bookData.bookAuthor" name="author">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="yearPublished">
         <mat-label>Рік видання</mat-label>
         <mat-chip-grid #chipGrid [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
           @for (year of years(); track year.year) {
@@ -65,17 +65,17 @@
     </div>
 
     <div>
-      <mat-form-field>
+      <mat-form-field class="bookPublisher">
         <mat-label>Видавництво</mat-label>
         <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="bookNbrOfPages">
         <mat-label>Кількість сторінок</mat-label>
         <input matInput type="number" [(ngModel)]="bookData.bookNbrOfPages" name="nbrOfPages">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="bookCover">
         <mat-label>Палітурка</mat-label>
         <input type="text"
                matInput
@@ -92,7 +92,7 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field class="full-width">
+    <mat-form-field class="bookDescription">
       <mat-label>Опис книжки</mat-label>
       <textarea matInput [(ngModel)]="bookData.bookDescription" name="description" rows="3"></textarea>
     </mat-form-field>
