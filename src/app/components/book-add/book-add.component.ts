@@ -48,6 +48,7 @@ export class BookAddComponent {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly years = signal<Year[]>([]);
+  readonly isbns: string[] = [];
   coverTypes = ['М\'яка', 'Тверда'];
 
   filteredCoverTypes(value: string | undefined): string[] {
@@ -105,6 +106,27 @@ export class BookAddComponent {
         this.years.update(years =>
           years.map(y => y === year ? { year: value as Year['year'] } : y)
         );
+    }
+  }
+
+  addIsbn(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      // ISBN-13 format validation: 13 digits with optional hyphens
+      const isbnRegex = /^(?:\d+-?){12}\d$/;
+      if (isbnRegex.test(value.replace(/-/g, ''))) {
+        this.isbns.push(value);
+        this.bookData.bookISBN = this.isbns.join(', ');
+      }
+    }
+    event.chipInput!.clear();
+  }
+
+  removeIsbn(isbn: string): void {
+    const index = this.isbns.indexOf(isbn);
+    if (index >= 0) {
+      this.isbns.splice(index, 1);
+      this.bookData.bookISBN = this.isbns.join(', ');
     }
   }
 

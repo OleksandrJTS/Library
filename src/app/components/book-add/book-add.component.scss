@@ -15,12 +15,20 @@ mat-dialog-content {
       width: 100%;
 
       mat-form-field {
-        &:first-child {
-          flex: 1;
+        &.isbn-field {
+          width: 13em;
         }
 
-        &:last-child {
+        &:has(mat-chip-grid[name="yearPublished"]) {
           width: 13em;
+        }
+
+        &:has(input[name="cover"]) {
+          width: 10em;
+        }
+
+        &:not(.isbn-field):not(:has(mat-chip-grid[name="yearPublished"])):not(:has(input[name="cover"])) {
+          flex: 1;
         }
       }
     }
@@ -39,6 +47,10 @@ mat-dialog-content {
         width: 100px !important;  // Restrict input width
         min-width: unset !important;
       }
+    }
+
+    .isbn-field {
+      margin-right: 1em;
     }
   }
 }

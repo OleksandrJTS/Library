@@ -10,7 +10,7 @@ export interface BookDetails {
   bookCover?: string; //
   bookInOriginalLanguage?: string;
   bookTranslator?: string;
-  bookISBN?: string;
+  bookISBN?: string; //
   bookNbrOfPages?: number;
   bookLanguage?: string;
   bookVertSize?: number;
