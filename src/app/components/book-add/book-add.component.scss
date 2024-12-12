@@ -1,60 +1,57 @@
-mat-dialog-content {
-  max-height: 90vh !important;
-
-  form {
-    //display: flex;
-    //flex-wrap: wrap;
-
-    //.full-width {
-    //  width: 100%;
-    //}
-
-    div {
-      display: flex;
-      gap: 0.5em;
-      width: 100%;
-
-      mat-form-field {
-        &.bookISBN {
-          width: 13em;
-        }
-
-        &.bookTitle { //&:has(mat-chip-grid[name="yearPublished"]) {
-          width: 13em;
-        }
-
-        &.bookCover { //&:has(input[name="cover"]) {
-          width: 10em;
-        }
-
-        &:not(bookISBN):not(yearPublished):not(bookCover) { //&:not(.isbn-field):not(:has(mat-chip-grid[name="yearPublished"])):not(:has(input[name="cover"])) {
-          flex: 1;
-        }
-      }
-    }
-
-    mat-form-field {
-      margin-right: 1rem;
-
-      // Decrease font size for input fields
-      ::ng-deep .mat-mdc-input-element {
-        font-size: 14px;
-      }
-    }
-
-    .mat-mdc-chip-grid {
-      input {
-        width: 100px !important;  // Restrict input width
-        min-width: unset !important;
-      }
-    }
-
-    //.isbn-field {
-    //  margin-right: 1em;
-    //}
-  }
-}
-
 .mat-mdc-dialog-title {
   padding-top: 0 !important;
+}
+
+mat-dialog-content {
+  max-height: 90vh !important;
+  padding-top: 1rem;
+
+  div {
+    display: flex;
+    gap: 0.5em;
+    width: 100%;
+
+    mat-form-field {
+      margin-right: 0.5rem;
+
+      &.bookISBN {
+        padding-top: 0.3rem; //adds some distance to the title to avoid jamming title of this field
+        flex: 0 0 auto;
+        width: 13em;
+      }
+
+      &.bookTitle {
+        padding-top: 0.3rem; //adds some distance to the title to avoid jamming title of this field
+      }
+
+      &.bookCover {
+        flex: 0 0 auto;
+        width: 7em;
+      }
+
+      &.yearPublished {
+        flex: 0 0 auto;
+        width: 13em;
+      }
+
+      &.bookNbrOfPages {
+        flex: 0 0 auto;
+        width: 9em;
+      }
+
+      //All the fields except listed with specific horizontal sizes above will consume all the available space
+      &:not(bookISBN):not(bookCover):not(yearPublished) {
+        flex: 1;
+      }
+
+      &.no-spinners {
+        /* For Chrome, Safari, Edge, Opera */
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
 }

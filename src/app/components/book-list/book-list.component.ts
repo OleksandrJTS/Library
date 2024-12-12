@@ -26,7 +26,7 @@ export class BookListComponent {
 
   openAddBookDialog(): void {
     const dialogRef = this.dialog.open(BookAddComponent, {
-      maxWidth: '50rem',
+      minWidth: '50rem',
       maxHeight: '95vh',
     });
 
