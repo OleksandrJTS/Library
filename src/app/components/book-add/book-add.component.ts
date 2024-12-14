@@ -13,6 +13,8 @@ import {Year} from "../../interfaces/year";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatAutocompleteModule, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
+import {ChangeDetectorRef} from '@angular/core';
+import {ISBN} from "../../interfaces/isbn";
 
 @Component({
   selector: 'app-book-add',
@@ -48,8 +50,10 @@ export class BookAddComponent {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly years = signal<Year[]>([]);
-  readonly isbns: string[] = [];
+  readonly isbns: ISBN[] = [];
+  languages: string[] = [];
   coverTypes = ['М\'яка', 'Тверда'];
+  categories: string[] = [];
 
   filteredCoverTypes(value: string | undefined): string[] {
     const filterValue = (value || '').toLowerCase();
@@ -61,7 +65,7 @@ export class BookAddComponent {
 
     // Trim the value to remove any whitespace
     const trimmedValue = value.trim();
-    
+
     const isValidOption = this.coverTypes.some(type =>
       type === trimmedValue // Exact match only
     );
@@ -89,25 +93,25 @@ export class BookAddComponent {
     event.chipInput!.clear();
   }
 
-  remove(year: Year): void {
-    this.years.update(years => years.filter(y => y !== year));
-  }
-
-  edit(year: Year, event: MatChipEditedEvent) {
+  editYear(year: Year, event: MatChipEditedEvent) {
     const value = event.value.trim();
 
     if (!value) {
-      this.remove(year);
+      this.removeYear(year);
       return;
     }
 
     const yearNum = parseInt(value, 10);
     if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
-      this.years().some(y => y !== year && y.year === value) ? this.remove(year) :
+      this.years().some(y => y !== year && y.year === value) ? this.removeYear(year) :
         this.years.update(years =>
           years.map(y => y === year ? { year: value as Year['year'] } : y)
         );
     }
+  }
+
+  removeYear(year: Year): void {
+    this.years.update(years => years.filter(y => y !== year));
   }
 
   addIsbn(event: MatChipInputEvent): void {
@@ -115,23 +119,135 @@ export class BookAddComponent {
     if (value) {
       // ISBN-13 format validation: 13 digits with optional hyphens
       const isbnRegex = /^(?:\d+-?){12}\d$/;
-      if (isbnRegex.test(value.replace(/-/g, ''))) {
-        this.isbns.push(value);
-        this.bookData.bookISBN = this.isbns.join(', ');
+      const isbn10Regex = /^(?:\d+-?){9}[\dX]$/;
+
+      // Remove hyphens for validation
+      const rawDigits = value.replace(/-/g, '');
+
+      if (isbnRegex.test(value) || isbn10Regex.test(value)) {
+        const isbnObject: ISBN = {
+          value: value,
+          type: rawDigits.length === 10 ? 'ISBN-10' : 'ISBN-13',
+          rawDigits: rawDigits,
+          isValid: true
+        };
+
+        if (!this.isbns.some(existingIsbn => existingIsbn.rawDigits === rawDigits)) {
+          this.isbns.push(isbnObject);
+        }
       }
+    }
+
+    // Clear the input
+    event.chipInput!.clear();
+  }
+
+  editISBN(isbn: ISBN, event: MatChipEditedEvent): void {
+    const value = event.value.trim();
+
+    if (!value) {
+      this.removeISBN(isbn);
+      return;
+    }
+
+    const index = this.isbns.indexOf(isbn);
+    const rawDigits = value.replace(/-/g, '');
+
+    const isbnRegex = /^(?:\d+-?){12}\d$/;
+    const isbn10Regex = /^(?:\d+-?){9}[\dX]$/;
+
+    if ((isbnRegex.test(value) || isbn10Regex.test(value)) && index >= 0) {
+      const newIsbnObject: ISBN = {
+        value: value,
+        type: rawDigits.length === 10 ? 'ISBN-10' : 'ISBN-13',
+        rawDigits: rawDigits,
+        isValid: true
+      };
+
+      this.isbns[index] = newIsbnObject;
+    }
+  }
+
+  removeISBN(isbn: ISBN): void {
+    const index = this.isbns.indexOf(isbn);
+    if (index >= 0) {
+      this.isbns.splice(index, 1);
+    }
+  }
+
+  addCategory(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.categories.push(value);
+      this.bookData.bookCategories = this.categories.join(', ');
+    }
+
+    event.chipInput.clear();
+  }
+
+  removeCategory(category: string): void {
+    const index = this.categories.indexOf(category);
+    if (index >= 0) {
+      this.categories = this.categories.filter(c => c !== category);
+      this.bookData.bookCategories = this.categories.join(', ');
+      this.cdr.detectChanges();
+    }
+  }
+
+  editCategory(category: string, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+
+    if (!value) {
+      this.removeCategory(category);
+      return;
+    }
+
+    const index = this.categories.indexOf(category);
+    if (index >= 0) {
+      this.categories = this.categories.map(c => c === category ? value : c);
+      this.bookData.bookCategories = this.categories.join(', ');
+      this.cdr.detectChanges();
+    }
+  }
+
+  addLanguage(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.languages.push(value);
+      this.bookData.bookLanguage = this.languages.join(', ');
+      this.cdr.detectChanges();
     }
     event.chipInput!.clear();
   }
 
-  removeIsbn(isbn: string): void {
-    const index = this.isbns.indexOf(isbn);
+  removeLanguage(language: string): void {
+    const index = this.languages.indexOf(language);
     if (index >= 0) {
-      this.isbns.splice(index, 1);
-      this.bookData.bookISBN = this.isbns.join(', ');
+      this.languages.splice(index, 1);
+      this.bookData.bookLanguage = this.languages.join(', ');
+      this.cdr.detectChanges();
     }
   }
 
-  constructor(public dialogRef: MatDialogRef<BookAddComponent>) {}
+  editLanguage(language: string, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+    if (!value) {
+      this.removeLanguage(language);
+      return;
+    }
+    const index = this.languages.indexOf(language);
+    if (index >= 0) {
+      this.languages[index] = value;
+      this.bookData.bookLanguage = this.languages.join(', ');
+      this.cdr.detectChanges();
+    }
+  }
+
+  constructor(
+    public dialogRef: MatDialogRef<BookAddComponent>,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   onCancel(): void {
     this.dialogRef.close();

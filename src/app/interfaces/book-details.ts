@@ -1,3 +1,4 @@
+import {ISBN} from "./isbn";
 import {Year} from "./year";
 
 export interface BookDetails {
@@ -11,10 +12,10 @@ export interface BookDetails {
   bookInOriginalLanguage?: string;
   bookTranslator?: string;
   bookISBN?: string; //
-  bookNbrOfPages?: number;
-  bookLanguage?: string;
+  bookNbrOfPages?: number; //
+  bookLanguage?: string; //
   bookVertSize?: number;
   bookHorizSize?: number;
-  bookCategories?: string;
+  bookCategories?: string; //
   photo?: string;
 }

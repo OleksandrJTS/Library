@@ -4,7 +4,7 @@
 
 mat-dialog-content {
   max-height: 90vh !important;
-  padding-top: 1rem;
+  padding: 1rem !important;
 
   div {
     display: flex;
@@ -36,22 +36,27 @@ mat-dialog-content {
 
       &.bookNbrOfPages {
         flex: 0 0 auto;
-        width: 9em;
+        width: 8em;
       }
 
-      //All the fields except listed with specific horizontal sizes above will consume all the available space
-      &:not(bookISBN):not(bookCover):not(yearPublished) {
+      &.bookCategories {
         flex: 1;
       }
 
-      &.no-spinners {
-        /* For Chrome, Safari, Edge, Opera */
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
+      &.bookLanguage {
+        flex: 0 0 auto;
+        width: 13em;
+      }
+
+      //All the fields except listed with specific horizontal sizes above will consume all the available space
+      &:not(bookISBN):not(bookCover):not(yearPublished):not(bookCategories):not(bookLanguage) {
+        flex: 1;
       }
     }
+  }
+
+  .bookDescription {
+    width: 100%;
+    display: block;
   }
 }
