@@ -50,7 +50,7 @@ export class BookAddComponent {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly years = signal<Year[]>([]);
-  readonly isbns: ISBN[] = [];
+  readonly isbns= signal<ISBN[]>([]);
   languages: string[] = [];
   coverTypes = ['М\'яка', 'Тверда'];
   categories: string[] = [];
@@ -74,8 +74,8 @@ export class BookAddComponent {
           isValid: true
         };
 
-        if (!this.isbns.some(existingIsbn => existingIsbn.rawDigits === rawDigits)) {
-          this.isbns.push(isbnObject);
+        if (!this.isbns().some(existingIsbn => existingIsbn.rawDigits === rawDigits)) {
+          this.isbns.update(isbns => [...isbns, isbnObject]);
         }
       }
     }
@@ -151,7 +151,7 @@ export class BookAddComponent {
       return;
     }
 
-    const index = this.isbns.indexOf(isbn);
+    const index = this.isbns().findIndex(item => item.rawDigits === isbn.rawDigits);
     const rawDigits = value.replace(/-/g, '');
 
     const isbnRegex = /^(?:\d+-?){12}\d$/;
@@ -165,14 +165,18 @@ export class BookAddComponent {
         isValid: true
       };
 
-      this.isbns[index] = newIsbnObject;
+      this.isbns.update(isbns => {
+        const updatedIsbns = [...isbns];
+        updatedIsbns[index] = newIsbnObject;
+        return updatedIsbns;
+      });
     }
   }
 
   removeISBN(isbn: ISBN): void {
-    const index = this.isbns.indexOf(isbn);
+    const index = this.isbns().findIndex(item => item.rawDigits === isbn.rawDigits);
     if (index >= 0) {
-      this.isbns.splice(index, 1);
+      this.isbns.update(isbns => isbns.filter((item, i) => i !== index));
     }
   }
 
