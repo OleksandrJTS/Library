@@ -55,6 +55,35 @@ export class BookAddComponent {
   coverTypes = ['М\'яка', 'Тверда'];
   categories: string[] = [];
 
+  addIsbn(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      // ISBN-13 format validation: 13 digits with optional hyphens
+      const isbnRegex = /^(?:\d+-?){12}\d$/;
+      const isbn10Regex = /^(?:\d+-?){9}[\dX]$/;
+
+      // Remove hyphens for validation
+      const rawDigits = value.replace(/-/g, '');
+
+      if (isbnRegex.test(value) || isbn10Regex.test(value)) {
+        const isbnObject: ISBN = {
+          value: value,
+          type: rawDigits.length === 10 ? 'ISBN-10' : 'ISBN-13',
+          rawDigits: rawDigits,
+          isValid: true
+        };
+
+        if (!this.isbns.some(existingIsbn => existingIsbn.rawDigits === rawDigits)) {
+          this.isbns.push(isbnObject);
+        }
+      }
+    }
+
+    // Clear the input
+    event.chipInput!.clear();
+  }
+
   filteredCoverTypes(value: string | undefined): string[] {
     const filterValue = (value || '').toLowerCase();
     return this.coverTypes.filter(type => type.toLowerCase().includes(filterValue));
@@ -112,34 +141,6 @@ export class BookAddComponent {
 
   removeYear(year: Year): void {
     this.years.update(years => years.filter(y => y !== year));
-  }
-
-  addIsbn(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      // ISBN-13 format validation: 13 digits with optional hyphens
-      const isbnRegex = /^(?:\d+-?){12}\d$/;
-      const isbn10Regex = /^(?:\d+-?){9}[\dX]$/;
-
-      // Remove hyphens for validation
-      const rawDigits = value.replace(/-/g, '');
-
-      if (isbnRegex.test(value) || isbn10Regex.test(value)) {
-        const isbnObject: ISBN = {
-          value: value,
-          type: rawDigits.length === 10 ? 'ISBN-10' : 'ISBN-13',
-          rawDigits: rawDigits,
-          isValid: true
-        };
-
-        if (!this.isbns.some(existingIsbn => existingIsbn.rawDigits === rawDigits)) {
-          this.isbns.push(isbnObject);
-        }
-      }
-    }
-
-    // Clear the input
-    event.chipInput!.clear();
   }
 
   editISBN(isbn: ISBN, event: MatChipEditedEvent): void {
