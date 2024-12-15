@@ -11,9 +11,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Year} from "../../interfaces/year";
 import {MatTooltip} from "@angular/material/tooltip";
-import {MatAutocompleteModule, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
-import {ChangeDetectorRef} from '@angular/core';
 import {ISBN} from "../../interfaces/isbn";
 
 @Component({
@@ -50,10 +49,10 @@ export class BookAddComponent {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly years = signal<Year[]>([]);
-  readonly isbns= signal<ISBN[]>([]);
-  languages: string[] = [];
   coverTypes = ['М\'яка', 'Тверда'];
-  categories: string[] = [];
+  readonly isbns= signal<ISBN[]>([]);
+  readonly categories = signal<string[]>([]);
+  readonly languages = signal<string[]>([]);
 
   addIsbn(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -82,65 +81,6 @@ export class BookAddComponent {
 
     // Clear the input
     event.chipInput!.clear();
-  }
-
-  filteredCoverTypes(value: string | undefined): string[] {
-    const filterValue = (value || '').toLowerCase();
-    return this.coverTypes.filter(type => type.toLowerCase().includes(filterValue));
-  }
-
-  validateBookCover(value: string | undefined): void {
-    if (value === undefined) return;
-
-    // Trim the value to remove any whitespace
-    const trimmedValue = value.trim();
-
-    const isValidOption = this.coverTypes.some(type =>
-      type === trimmedValue // Exact match only
-    );
-
-    if (!isValidOption) {
-      setTimeout(() => {
-        this.bookData.bookCover = '';
-      });
-    }
-  }
-
-  addYear(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add the year
-    if (value) {
-      const yearNum = parseInt(value, 10);
-      if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
-        const yearString = yearNum.toString(); // Convert to string to remove leading zeros
-        this.years.update(years => years.some(y => y.year === yearString) ?
-          years : [...years, { year: yearString as Year['year'] }]);
-      }
-    }
-
-    event.chipInput!.clear();
-  }
-
-  editYear(year: Year, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-
-    if (!value) {
-      this.removeYear(year);
-      return;
-    }
-
-    const yearNum = parseInt(value, 10);
-    if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
-      this.years().some(y => y !== year && y.year === value) ? this.removeYear(year) :
-        this.years.update(years =>
-          years.map(y => y === year ? { year: value as Year['year'] } : y)
-        );
-    }
-  }
-
-  removeYear(year: Year): void {
-    this.years.update(years => years.filter(y => y !== year));
   }
 
   editISBN(isbn: ISBN, event: MatChipEditedEvent): void {
@@ -180,24 +120,69 @@ export class BookAddComponent {
     }
   }
 
+  addYear(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add the year
+    if (value) {
+      const yearNum = parseInt(value, 10);
+      if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
+        const yearString = yearNum.toString(); // Convert to string to remove leading zeros
+        this.years.update(years => years.some(y => y.year === yearString) ?
+          years : [...years, { year: yearString as Year['year'] }]);
+      }
+    }
+    event.chipInput!.clear();
+  }
+
+  editYear(year: Year, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+
+    if (!value) {
+      this.removeYear(year);
+      return;
+    }
+
+    const yearNum = parseInt(value, 10);
+    if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= 2025) {
+      this.years().some(y => y !== year && y.year === value) ? this.removeYear(year) :
+        this.years.update(years =>
+          years.map(y => y === year ? { year: value as Year['year'] } : y)
+        );
+    }
+  }
+
+  removeYear(year: Year): void {
+    this.years.update(years => years.filter(y => y !== year));
+  }
+
+  filteredCoverTypes(value: string | undefined): string[] {
+    const filterValue = (value || '').toLowerCase();
+    return this.coverTypes.filter(type => type.toLowerCase().includes(filterValue));
+  }
+
+  validateBookCover(value: string | undefined): void {
+    if (value === undefined) return;
+
+    // Trim the value to remove any whitespace
+    const trimmedValue = value.trim();
+
+    const isValidOption = this.coverTypes.some(type =>
+      type === trimmedValue // Exact match only
+    );
+
+    if (!isValidOption) {
+      setTimeout(() => {this.bookData.bookCover = '';});
+    }
+  }
+
   addCategory(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
     if (value) {
-      this.categories.push(value);
-      this.bookData.bookCategories = this.categories.join(', ');
+      this.categories.update(categories => [...categories, value]);
     }
-
     event.chipInput.clear();
-  }
-
-  removeCategory(category: string): void {
-    const index = this.categories.indexOf(category);
-    if (index >= 0) {
-      this.categories = this.categories.filter(c => c !== category);
-      this.bookData.bookCategories = this.categories.join(', ');
-      this.cdr.detectChanges();
-    }
   }
 
   editCategory(category: string, event: MatChipEditedEvent) {
@@ -208,30 +193,31 @@ export class BookAddComponent {
       return;
     }
 
-    const index = this.categories.indexOf(category);
+    const index = this.categories().indexOf(category);
     if (index >= 0) {
-      this.categories = this.categories.map(c => c === category ? value : c);
-      this.bookData.bookCategories = this.categories.join(', ');
-      this.cdr.detectChanges();
+      this.categories.update(categories => categories.map(c => c === category ? value : c));
+    }
+  }
+
+  removeCategory(category: string): void {
+    const index = this.categories().indexOf(category);
+    if (index >= 0) {
+      this.categories.update(categories => categories.filter(c => c !== category));
     }
   }
 
   addLanguage(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      this.languages.push(value);
-      this.bookData.bookLanguage = this.languages.join(', ');
-      this.cdr.detectChanges();
+      this.languages.update(languages => [...languages, value]);
     }
     event.chipInput!.clear();
   }
 
   removeLanguage(language: string): void {
-    const index = this.languages.indexOf(language);
+    const index = this.languages().indexOf(language);
     if (index >= 0) {
-      this.languages.splice(index, 1);
-      this.bookData.bookLanguage = this.languages.join(', ');
-      this.cdr.detectChanges();
+      this.languages.update(languages => languages.filter(l => l !== language));
     }
   }
 
@@ -241,17 +227,14 @@ export class BookAddComponent {
       this.removeLanguage(language);
       return;
     }
-    const index = this.languages.indexOf(language);
+    const index = this.languages().indexOf(language);
     if (index >= 0) {
-      this.languages[index] = value;
-      this.bookData.bookLanguage = this.languages.join(', ');
-      this.cdr.detectChanges();
+      this.languages.update(languages => languages.map(l => l === language ? value : l));
     }
   }
 
   constructor(
     public dialogRef: MatDialogRef<BookAddComponent>,
-    private cdr: ChangeDetectorRef
   ) {}
 
   onCancel(): void {

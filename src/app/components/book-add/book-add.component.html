@@ -5,7 +5,7 @@
     <div>
       <mat-form-field class="bookISBN" appearance="outline">
         <mat-label>ISBN</mat-label>
-        <mat-chip-grid #isbnChipGrid [(ngModel)]="bookData.bookISBN">
+        <mat-chip-grid #ISBNChipGrid [(ngModel)]="bookData.bookISBN">
           <mat-chip-row *ngFor="let isbn of isbns()"
               (removed)="removeISBN(isbn)"
               [editable]="true"
@@ -16,7 +16,7 @@
             </button>
           </mat-chip-row>
           <input
-                 [matChipInputFor]="isbnChipGrid"
+                 [matChipInputFor]="ISBNChipGrid"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  (matChipInputTokenEnd)="addIsbn($event)"
                  matTooltip="ISBN - до 13 цифр з дефісами"
@@ -41,7 +41,7 @@
 
       <mat-form-field class="yearPublished" appearance="outline">
         <mat-label>Рік (роки) видання</mat-label>
-        <mat-chip-grid #chipGrid [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
+        <mat-chip-grid #YearchipGrid [(ngModel)]="bookData.bookYearPublished" name="yearPublished">
           <mat-chip-row *ngFor="let year of years()"
               (removed)="removeYear(year)"
               [editable]="true"
@@ -53,7 +53,7 @@
           </mat-chip-row>
 
           <input
-             [matChipInputFor]="chipGrid"
+             [matChipInputFor]="YearchipGrid"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              (matChipInputTokenEnd)="addYear($event)"
              matTooltip="Введіть 4-значні числа від 1900 до 2025"
@@ -84,7 +84,7 @@
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let type of filteredCoverTypes(bookData.bookCover)" [value]="type">
-            {{type}}
+                {{type}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -93,8 +93,8 @@
     <div>
       <mat-form-field class="bookCategories" appearance="outline">
         <mat-label>Категорії</mat-label>
-        <mat-chip-grid #categoriesGrid [(ngModel)]="bookData.bookCategories">
-          <mat-chip-row *ngFor="let category of categories"
+        <mat-chip-grid #categoriesChipGrid [(ngModel)]="bookData.bookCategories">
+          <mat-chip-row *ngFor="let category of categories()"
               (removed)="removeCategory(category)"
               [editable]="true"
               (edited)="editCategory(category, $event)">
@@ -105,29 +105,28 @@
           </mat-chip-row>
 
           <input
-             matInput
-             [matChipInputFor]="categoriesGrid"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             (matChipInputTokenEnd)="addCategory($event)"
-             matTooltip="Категорія книжки"
-             [matTooltipShowDelay]="1000">
+            [matChipInputFor]="categoriesChipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addCategory($event)"
+            matTooltip="Категорія книжки"
+            [matTooltipShowDelay]="1000">
         </mat-chip-grid>
       </mat-form-field>
 
       <mat-form-field class="bookLanguage" appearance="outline">
         <mat-label>Мова</mat-label>
-        <mat-chip-grid #languageGrid [(ngModel)]="bookData.bookLanguage" name="language">
-          <mat-chip-row *ngFor="let lang of languages"
-              (removed)="removeLanguage(lang)"
+        <mat-chip-grid #languageChipGrid [(ngModel)]="bookData.bookLanguage">
+          <mat-chip-row *ngFor="let language of languages()"
+              (removed)="removeLanguage(language)"
               [editable]="true"
-              (edited)="editLanguage(lang, $event)">
-            {{lang}}
+              (edited)="editLanguage(language, $event)">
+            {{language}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
           <input
-             [matChipInputFor]="languageGrid"
+             [matChipInputFor]="languageChipGrid"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              (matChipInputTokenEnd)="addLanguage($event)"
              matTooltip="Введіть мову книги"
