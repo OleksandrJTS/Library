@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Контактна форма</h2>
+
+<mat-dialog-content>
+  <div class="contact-info">
+    <p>Електронна пошта: <a href="mailto:sashko.martynenko&#64;gmail.com">sashko.martynenko&#64;gmail.com</a></p>
+  </div>
+
+  <form #contactForm="ngForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Ваш відгук</mat-label>
+      <textarea matInput
+                [(ngModel)]="feedback"
+                name="feedback"
+                rows="4"
+                placeholder="Ваш відгук тут..."></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Відмінити</button>
+  <button mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="!feedback.trim()">
+    Надіслати
+  </button>
+</mat-dialog-actions>

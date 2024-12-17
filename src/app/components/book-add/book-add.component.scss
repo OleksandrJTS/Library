@@ -48,6 +48,10 @@ mat-dialog-content {
         width: 13em;
       }
 
+      &.bookDescription {
+        margin-bottom: -1rem;
+      }
+
       //All the fields except listed with specific horizontal sizes above will consume all the available space
       &:not(bookISBN):not(bookCover):not(yearPublished):not(bookCategories):not(bookLanguage) {
         flex: 1;

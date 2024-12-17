@@ -35,7 +35,6 @@ export class BookAddComponent {
     bookDescription: '',
     bookPublisher: '',
     bookCover: '',
-    bookInOriginalLanguage: '',
     bookTranslator: '',
     bookISBN: '',
     bookNbrOfPages: 0,
@@ -53,6 +52,7 @@ export class BookAddComponent {
   readonly isbns= signal<ISBN[]>([]);
   readonly categories = signal<string[]>([]);
   readonly languages = signal<string[]>([]);
+  readonly translators = signal<string[]>([]);
 
   addIsbn(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -204,6 +204,33 @@ export class BookAddComponent {
     if (index >= 0) {
       this.categories.update(categories => categories.filter(c => c !== category));
     }
+  }
+
+  addTranslator(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.translators.update(translators => [...translators, value]);
+    }
+    event.chipInput!.clear();
+  }
+
+  editTranslator(translator: string, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+
+    if (!value) {
+      this.removeTranslator(translator);
+      return;
+    }
+
+    const index = this.translators().indexOf(translator);
+    if (index >= 0) {
+      this.translators.update(translators => translators.map(t => t === translator ? value : t));
+    }
+  }
+
+  removeTranslator(translator: string): void {
+    this.translators.update(translators => translators.filter(t => t !== translator));
   }
 
   addLanguage(event: MatChipInputEvent): void {

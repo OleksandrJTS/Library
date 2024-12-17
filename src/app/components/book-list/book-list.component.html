@@ -2,6 +2,10 @@
   <app-book-box *ngFor="let b of bookingService.getAllBooksDetails()" [bookDetails]="b"></app-book-box>
 </div>
 
+<button mat-fab color="accent" class="contact-fab-button" (click)="openContactForm()">
+  <mat-icon>contact_support</mat-icon>
+</button>
+
 <button mat-fab color="primary" class="fab-button" (click)="openAddBookDialog()">
   <mat-icon>add</mat-icon>
 </button>

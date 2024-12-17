@@ -1,0 +1,24 @@
+.contact-info {
+  margin-bottom: 20px;
+  
+  a {
+    color: #3f51b5;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 15px;
+}
+
+textarea {
+  min-height: 100px;
+}

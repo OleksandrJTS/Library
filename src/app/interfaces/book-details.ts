@@ -9,7 +9,6 @@ export interface BookDetails {
   bookDescription?: string; //
   bookYearPublished?: Year; //
   bookCover?: string; //
-  bookInOriginalLanguage?: string;
   bookTranslator?: string;
   bookISBN?: string; //
   bookNbrOfPages?: number; //

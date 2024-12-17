@@ -5,7 +5,7 @@
     <div>
       <mat-form-field class="bookISBN" appearance="outline">
         <mat-label>ISBN</mat-label>
-        <mat-chip-grid #ISBNChipGrid [(ngModel)]="bookData.bookISBN">
+        <mat-chip-grid #ISBNChipGrid [(ngModel)]="bookData.bookISBN" name="isbn">
           <mat-chip-row *ngFor="let isbn of isbns()"
               (removed)="removeISBN(isbn)"
               [editable]="true"
@@ -20,7 +20,8 @@
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  (matChipInputTokenEnd)="addIsbn($event)"
                  matTooltip="ISBN - до 13 цифр з дефісами"
-                 [matTooltipShowDelay]="1000">
+                 [matTooltipShowDelay]="1000"
+                 name="isbnInput">
         </mat-chip-grid>
       </mat-form-field>
 
@@ -36,7 +37,7 @@
     <div>
       <mat-form-field class="bookAuthor" appearance="outline">
         <mat-label>Автор(и)</mat-label>
-        <input matInput [(ngModel)]="bookData.bookAuthor">
+        <input matInput [(ngModel)]="bookData.bookAuthor" name="author">
       </mat-form-field>
 
       <mat-form-field class="yearPublished" appearance="outline">
@@ -57,7 +58,8 @@
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              (matChipInputTokenEnd)="addYear($event)"
              matTooltip="Введіть 4-значні числа від 1900 до 2025"
-             [matTooltipShowDelay]="1000">
+             [matTooltipShowDelay]="1000"
+             name="yearInput">
         </mat-chip-grid>
       </mat-form-field>
     </div>
@@ -65,12 +67,12 @@
     <div>
       <mat-form-field class="bookPublisher" appearance="outline">
         <mat-label>Видавництво</mat-label>
-        <input matInput [(ngModel)]="bookData.bookPublisher">
+        <input matInput [(ngModel)]="bookData.bookPublisher" name="publisher">
       </mat-form-field>
 
       <mat-form-field class="bookNbrOfPages" appearance="outline">
         <mat-label>К-ть сторінок</mat-label>
-        <input matInput type="number" [(ngModel)]="bookData.bookNbrOfPages">
+        <input matInput type="number" [(ngModel)]="bookData.bookNbrOfPages" name="nbrOfPages">
       </mat-form-field>
 
       <mat-form-field class="bookCover" appearance="outline">
@@ -93,7 +95,7 @@
     <div>
       <mat-form-field class="bookCategories" appearance="outline">
         <mat-label>Категорії</mat-label>
-        <mat-chip-grid #categoriesChipGrid [(ngModel)]="bookData.bookCategories">
+        <mat-chip-grid #categoriesChipGrid [(ngModel)]="bookData.bookCategories" name="categories">
           <mat-chip-row *ngFor="let category of categories()"
               (removed)="removeCategory(category)"
               [editable]="true"
@@ -109,13 +111,14 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             (matChipInputTokenEnd)="addCategory($event)"
             matTooltip="Категорія книжки"
-            [matTooltipShowDelay]="1000">
+            [matTooltipShowDelay]="1000"
+            name="categoryInput">
         </mat-chip-grid>
       </mat-form-field>
 
       <mat-form-field class="bookLanguage" appearance="outline">
-        <mat-label>Мова</mat-label>
-        <mat-chip-grid #languageChipGrid [(ngModel)]="bookData.bookLanguage">
+        <mat-label>Мова(и)</mat-label>
+        <mat-chip-grid #languageChipGrid [(ngModel)]="bookData.bookLanguage" name="language">
           <mat-chip-row *ngFor="let language of languages()"
               (removed)="removeLanguage(language)"
               [editable]="true"
@@ -130,7 +133,33 @@
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              (matChipInputTokenEnd)="addLanguage($event)"
              matTooltip="Введіть мову книги"
-             [matTooltipShowDelay]="1000">
+             [matTooltipShowDelay]="1000"
+             name="languageInput">
+        </mat-chip-grid>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="bookTranslator" appearance="outline">
+        <mat-label>Перекладач(і)</mat-label>
+        <mat-chip-grid #translatorChipGrid [(ngModel)]="bookData.bookTranslator" name="translator">
+          <mat-chip-row *ngFor="let translator of translators()"
+              (removed)="removeTranslator(translator)"
+              [editable]="true"
+              (edited)="editTranslator(translator, $event)">
+            {{translator}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+
+          <input
+             [matChipInputFor]="translatorChipGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             (matChipInputTokenEnd)="addTranslator($event)"
+             matTooltip="Перекладач(і)"
+             [matTooltipShowDelay]="1000"
+             name="translatorInput">
         </mat-chip-grid>
       </mat-form-field>
     </div>
@@ -138,13 +167,17 @@
     <div>
       <mat-form-field class="bookDescription" appearance="outline">
         <mat-label>Опис книжки</mat-label>
-        <textarea matInput [(ngModel)]="bookData.bookDescription" rows="3"></textarea>
+        <textarea matInput [(ngModel)]="bookData.bookDescription" name="description" rows="3"></textarea>
       </mat-form-field>
     </div>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Відхиляю</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookForm.form.valid">Додай</button>
+  <button mat-button (click)="onCancel()">Відмінити</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="!bookForm.form.valid">
+    ОК</button>
 </mat-dialog-actions>
